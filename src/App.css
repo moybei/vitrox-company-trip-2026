@@ -218,13 +218,19 @@ body {
 }
 .fl-chevron--open { transform: rotate(180deg); }
 
-/* Smooth iOS-like flight panel */
+/* Flight panel — absolute overlay dropdown below the ctrl-bar */
 .fi-wrap {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10);
 }
-.fi-wrap--open { grid-template-rows: 1fr; }
+.fi-wrap--open { max-height: 600px; }
 .fi-inner { overflow: hidden; min-height: 0; }
 
 /* ================================================================

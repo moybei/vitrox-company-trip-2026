@@ -83,16 +83,16 @@ export default function App() {
             </button>
           )}
         </div>
-      </div>
 
-      {/* ── FLIGHT PANEL ────────────────────────────────── */}
-      {fl && (
-        <div className={`fi-wrap${showFlight ? ' fi-wrap--open' : ''}`}>
-          <div className="fi-inner">
-            <FlightInfo airlineKey={airlineKey} />
+        {/* ── FLIGHT PANEL (overlay dropdown) ─────────── */}
+        {fl && (
+          <div className={`fi-wrap${showFlight ? ' fi-wrap--open' : ''}`}>
+            <div className="fi-inner">
+              <FlightInfo airlineKey={airlineKey} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* ── MAIN ────────────────────────────────────────── */}
       <div className="layout">
