@@ -120,10 +120,11 @@ body {
   }
   .ctrl-left {
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex: none;
     width: 100%;
   }
+  .ctrl-left .date-badge { margin-left: auto; }
   .fl-btn {
     align-self: center;
   }
