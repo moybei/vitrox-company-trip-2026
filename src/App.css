@@ -170,9 +170,12 @@ body {
   transition: background .15s, border-color .15s;
   white-space: nowrap;
   flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 .fl-btn:hover { background: var(--slate-50); border-color: var(--slate-300); }
 .fl-btn--open { background: var(--slate-100); border-color: var(--slate-300); }
+.fl-btn:focus { outline: none; }
+.fl-btn:focus-visible { outline: 2px solid var(--fl-color, #2563eb); outline-offset: 2px; }
 .fl-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
@@ -181,7 +184,22 @@ body {
 }
 .fl-name { font-weight: 700; color: var(--fl-color, var(--blue-600)); }
 .fl-bag  { color: var(--slate-400); font-size: 11px; }
-.fl-chevron { font-size: 9px; color: var(--slate-400); }
+.fl-chevron {
+  font-size: 9px;
+  color: var(--slate-400);
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fl-chevron--open { transform: rotate(180deg); }
+
+/* Smooth iOS-like flight panel */
+.fi-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fi-wrap--open { grid-template-rows: 1fr; }
+.fi-inner { overflow: hidden; min-height: 0; }
 
 /* ================================================================
    FLIGHT INFO PANEL
@@ -402,6 +420,7 @@ body {
   cursor: pointer;
   transition: box-shadow .15s, border-color .15s, border-left-color .15s;
   outline-offset: 2px;
+  -webkit-tap-highlight-color: transparent;
 }
 .dc:hover {
   box-shadow: var(--shadow);
@@ -463,7 +482,23 @@ body {
 }
 .dc-date strong { color: var(--slate-600); font-weight: 600; }
 .dc-sep { color: var(--slate-300); }
-.dc-arrow { font-size: 10px; color: var(--slate-300); flex-shrink: 0; }
+.dc-arrow {
+  font-size: 10px;
+  color: var(--slate-300);
+  flex-shrink: 0;
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dc-arrow--open { transform: rotate(180deg); }
+
+/* Smooth iOS-like accordion body */
+.dc-body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dc-body-wrap--open { grid-template-rows: 1fr; }
+.dc-body-inner { overflow: hidden; min-height: 0; }
 
 .dc-body { padding: 0 14px 14px; }
 

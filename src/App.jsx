@@ -21,9 +21,6 @@ export default function App() {
 
   const handleSelectDay = useCallback((day) => {
     setSelectedDay(day);
-    if (day !== null && window.innerWidth < 768) {
-      setTimeout(() => mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-    }
   }, []);
 
   function handleTripChange(id) {
@@ -82,14 +79,20 @@ export default function App() {
               <span className="fl-dot" />
               <span className="fl-name">{fl.airline}</span>
               <span className="fl-bag">{fl.baggage}</span>
-              <span className="fl-chevron">{showFlight ? '▲' : '▼'}</span>
+              <span className={`fl-chevron${showFlight ? ' fl-chevron--open' : ''}`}>▼</span>
             </button>
           )}
         </div>
       </div>
 
       {/* ── FLIGHT PANEL ────────────────────────────────── */}
-      {fl && showFlight && <FlightInfo airlineKey={airlineKey} />}
+      {fl && (
+        <div className={`fi-wrap${showFlight ? ' fi-wrap--open' : ''}`}>
+          <div className="fi-inner">
+            <FlightInfo airlineKey={airlineKey} />
+          </div>
+        </div>
+      )}
 
       {/* ── MAIN ────────────────────────────────────────── */}
       <div className="layout">

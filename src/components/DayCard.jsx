@@ -38,14 +38,13 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
             {fmtWeekday(date)}
           </div>
         </div>
-        <span className="dc-arrow" aria-hidden="true">
-          {isSelected ? '▲' : '▼'}
-        </span>
+        <span className={`dc-arrow${isSelected ? ' dc-arrow--open' : ''}`} aria-hidden="true">▼</span>
       </div>
 
       {/* ── Expanded body ── */}
-      {isSelected && (
-        <div className="dc-body" onClick={(e) => e.stopPropagation()}>
+      <div className={`dc-body-wrap${isSelected ? ' dc-body-wrap--open' : ''}`}>
+        <div className="dc-body-inner">
+          <div className="dc-body" onClick={(e) => e.stopPropagation()}>
 
           {/* Travel segments */}
           {day.segments.length > 0 && (
@@ -111,7 +110,8 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
             </p>
           )}
         </div>
-      )}
+        </div>
+      </div>
     </div>
   );
 }
