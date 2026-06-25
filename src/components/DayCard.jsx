@@ -1,4 +1,5 @@
-﻿import { fmtDate, fmtWeekday, addDays } from '../data/trips';
+﻿import { useRef, useEffect } from 'react';
+import { fmtDate, fmtWeekday, addDays } from '../data/trips';
 import { MODE_LABEL } from '../data/itinerary';
 
 const TYPE_COLORS = {
@@ -12,11 +13,22 @@ const TYPE_COLORS = {
 };
 
 export default function DayCard({ day, tripStart, isSelected, onSelect }) {
-  const date   = addDays(tripStart, day.day - 1);
-  const colors = TYPE_COLORS[day.type] || TYPE_COLORS.travel;
+  const date    = addDays(tripStart, day.day - 1);
+  const colors  = TYPE_COLORS[day.type] || TYPE_COLORS.travel;
+  const cardRef = useRef(null);
+
+  // Scroll card into view when expanded so content isn't cut off
+  useEffect(() => {
+    if (!isSelected || !cardRef.current) return;
+    const timer = setTimeout(() => {
+      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 340); // after accordion animation completes (~320ms)
+    return () => clearTimeout(timer);
+  }, [isSelected]);
 
   return (
     <div
+      ref={cardRef}
       className={`dc${isSelected ? ' dc--selected' : ''}`}
       style={{ '--dc-accent': colors.accent, '--dc-bg': colors.bg }}
       onClick={() => onSelect(isSelected ? null : day.day)}

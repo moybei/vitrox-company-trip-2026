@@ -110,6 +110,24 @@ body {
   flex: 1;
   min-width: 0;
 }
+
+/* Mobile: trip row + airline row stacked */
+@media (max-width: 639px) {
+  .ctrl-bar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .ctrl-left {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex: none;
+    width: 100%;
+  }
+  .fl-btn {
+    align-self: center;
+  }
+}
 .ctrl-lbl {
   font-size: 10px;
   font-weight: 600;
