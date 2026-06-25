@@ -19,10 +19,10 @@ export const TRIPS = [
 ];
 
 // Trips flying with Cathay Pacific
-export const CATHAY_TRIPS = new Set([1, 2, 3, 4, 8, 9, 10, 18, 22, 30, 32]);
+export const CATHAY_TRIPS = new Set([1, 2, 3, 4, 8, 9, 18, 22, 30, 32]);
 
 // Trips flying with Singapore Airlines
-export const SQ_TRIPS = new Set([5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 31]);
+export const SQ_TRIPS = new Set([5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 31]);
 
 export function getAirline(tripId) {
   if (CATHAY_TRIPS.has(tripId)) return 'cathay';
