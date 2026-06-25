@@ -24,18 +24,22 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
     if (bodyRef.current) setBodyH(bodyRef.current.scrollHeight);
   }, []);
 
-  // Scroll card into view when expanded so content isn't cut off
+  // Scroll after expand/collapse once animation completes (~320ms)
   useEffect(() => {
-    if (!isSelected || !cardRef.current) return;
+    if (!cardRef.current) return;
     const timer = setTimeout(() => {
       const card = cardRef.current;
       const rect = card.getBoundingClientRect();
-      const bottomGap = 24; // extra space below the card
-      const overflow = rect.bottom + bottomGap - window.innerHeight;
-      if (overflow > 0) {
-        window.scrollBy({ top: overflow, behavior: 'smooth' });
+      if (isSelected) {
+        // After expand: scroll down if card bottom is cut off
+        const bottomGap = 24;
+        const overflow = rect.bottom + bottomGap - window.innerHeight;
+        if (overflow > 0) window.scrollBy({ top: overflow, behavior: 'smooth' });
+      } else {
+        // After collapse: scroll up if card header is above viewport
+        if (rect.top < 0) window.scrollBy({ top: rect.top - 12, behavior: 'smooth' });
       }
-    }, 340); // after accordion animation completes (~320ms)
+    }, 340);
     return () => clearTimeout(timer);
   }, [isSelected]);
 
