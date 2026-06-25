@@ -12,7 +12,7 @@ const TYPE_COLORS = {
   city:    { accent: '#c026d3', bg: '#fae8ff' },
 };
 
-export default function DayCard({ day, tripStart, isSelected, onSelect }) {
+export default function DayCard({ day, tripStart, isSelected, onSelect, weather, weatherLoading }) {
   const date    = addDays(tripStart, day.day - 1);
   const colors  = TYPE_COLORS[day.type] || TYPE_COLORS.travel;
   const cardRef = useRef(null);
@@ -60,6 +60,17 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
             {fmtWeekday(date)}
           </div>
         </div>
+        {weather ? (
+          <div className="dc-weather">
+            <span className="dc-wicon">{weather.icon}</span>
+            <div className="dc-wtemps">
+              <span className="dc-wmax">{weather.max}°</span>
+              <span className="dc-wmin">{weather.min}°</span>
+            </div>
+          </div>
+        ) : weatherLoading ? (
+          <div className="dc-weather-skeleton" aria-hidden="true" />
+        ) : null}
         <span className={`dc-arrow${isSelected ? ' dc-arrow--open' : ''}`} aria-hidden="true">▼</span>
       </div>
 

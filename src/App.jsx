@@ -3,12 +3,18 @@ import './App.css';
 import { TRIPS, parseDate, fmtDate, addDays, getAirline } from './data/trips';
 import { FLIGHTS } from './data/flights';
 import { ITINERARY } from './data/itinerary';
+import { useWeather } from './hooks/useWeather';
 import FlightInfo from './components/FlightInfo';
 import TripMap    from './components/TripMap';
 import DayCard    from './components/DayCard';
 
+const STORAGE_KEY = 'vitrox-trip-id';
+
 export default function App() {
-  const [tripId,      setTripId]      = useState(1);
+  const [tripId,      setTripId]      = useState(() => {
+    const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+    return saved && TRIPS.some((t) => t.id === saved) ? saved : 1;
+  });
   const [selectedDay, setSelectedDay] = useState(null);
   const [showFlight,  setShowFlight]  = useState(false);
   const mapRef    = useRef(null);
@@ -19,12 +25,20 @@ export default function App() {
   const start      = trip ? parseDate(trip.start) : null;
   const end        = start ? addDays(start, 7) : null;
 
+  const { weather, loading: weatherLoading } = useWeather(start, ITINERARY);
+
+  // Forecast data is only available 16 days ahead; beyond that we use last year's archive
+  const forecastCutoff = new Date();
+  forecastCutoff.setDate(forecastCutoff.getDate() + 16);
+  const weatherIsHistorical = start && start > forecastCutoff;
+
   const handleSelectDay = useCallback((day) => {
     setSelectedDay(day);
   }, []);
 
   function handleTripChange(id) {
     setTripId(id);
+    localStorage.setItem(STORAGE_KEY, id);
     setSelectedDay(null);
     setShowFlight(false);
   }
@@ -117,8 +131,16 @@ export default function App() {
               tripStart={start}
               isSelected={selectedDay === day.day}
               onSelect={handleSelectDay}
+              weather={weather[day.day]}
+              weatherLoading={weatherLoading}
             />
           ))}
+
+          {weatherIsHistorical && (
+            <p className="weather-notice">
+              🗓️ Weather shown is historical data from last year — live forecast is only available up to {forecastCutoff.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}.
+            </p>
+          )}
         </div>
       </div>
 
