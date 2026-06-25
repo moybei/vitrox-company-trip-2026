@@ -55,13 +55,12 @@ body {
   margin: 0 auto;
 }
 .hdr-flag {
-  width: 42px;
-  height: 28px;
+  width: auto;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 3px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.25);
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 .hdr-text h1 {
   font-size: 16px;
@@ -79,7 +78,7 @@ body {
 
 @media (min-width: 640px) {
   .hdr { padding: 16px 28px; }
-  .hdr-flag { width: 48px; height: 32px; }
+  .hdr-flag { height: 48px; }
   .hdr-text h1 { font-size: 18px; }
 }
 
