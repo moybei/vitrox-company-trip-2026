@@ -52,12 +52,13 @@ export const ITINERARY = [
     icon: '⛩️',
     title: 'Narita → Sendai, Miyagi',
     segments: [
-      { from: 'Narita',  to: 'Sendai',     mode: MODE.SHINKANSEN, duration: '~1h 30m' },
-      { from: 'Sendai',  to: 'Matsushima', mode: MODE.BUS,         duration: '~50 min' },
+      { from: 'Narita',     to: 'Sendai',       mode: MODE.SHINKANSEN, duration: '~1h 30m' },
+      { from: 'Sendai',     to: 'Matsushima',   mode: MODE.BUS,         duration: '~50 min' },
+      { from: 'Matsushima', to: 'Naruko Onsen', mode: MODE.BUS,         duration: '~1h 30m' },
     ],
     attractions: [
       { name: 'Sendai Fish Market',        googleUrl: 'https://maps.app.goo.gl/EiXTzvmFMEjxjp2W9' },
-      { name: 'Matsushima Island',          googleUrl: gm(38.3309, 141.0955) },
+      { name: 'Matsushima Island (Fukuurajima)', googleUrl: gm(38.3734, 141.0789) },
       { name: 'Matsushima Bay',             googleUrl: 'https://maps.app.goo.gl/LiLoAVP1b4ucf7HRA' },
       { name: 'Godaido of Zuiganji Temple', googleUrl: 'https://maps.app.goo.gl/J7BsdXePjMw1vA7v7' },
     ],
@@ -73,12 +74,14 @@ export const ITINERARY = [
       { lat: 35.7731, lng: 140.3897, label: 'Narita',               type: 'stop',       googleUrl: 'https://maps.app.goo.gl/gS1fi8WJWuCPEDoq5' },
       { lat: 38.2690, lng: 140.8694, label: 'Sendai',               type: 'stop' },
       { lat: 38.2588, lng: 140.8787, label: 'Sendai Fish Market',   type: 'attraction', googleUrl: 'https://maps.app.goo.gl/EiXTzvmFMEjxjp2W9' },
-      { lat: 38.3309, lng: 141.0955, label: 'Matsushima Bay',       type: 'attraction', googleUrl: 'https://maps.app.goo.gl/LiLoAVP1b4ucf7HRA' },
+      { lat: 38.3734, lng: 141.0789, label: 'Matsushima Island',    type: 'attraction', googleUrl: gm(38.3734, 141.0789) },
+      { lat: 38.3671, lng: 141.0645, label: 'Matsushima Bay',       type: 'attraction', googleUrl: 'https://maps.app.goo.gl/LiLoAVP1b4ucf7HRA' },
       { lat: 38.3697, lng: 141.0642, label: 'Godaido of Zuiganji',  type: 'attraction', googleUrl: 'https://maps.app.goo.gl/J7BsdXePjMw1vA7v7' },
     ],
     polylines: [
-      { points: [[35.7731, 140.3897], [38.2690, 140.8694]], mode: MODE.SHINKANSEN },
-      { points: [[38.2690, 140.8694], [38.3309, 141.0955]], mode: MODE.BUS },
+      { points: [[35.7800, 140.3809], [38.2690, 140.8694]], mode: MODE.SHINKANSEN },
+      { points: [[38.2690, 140.8694], [38.3671, 141.0645]], mode: MODE.BUS },
+      { points: [[38.3671, 141.0645], [38.7479, 140.7266]], mode: MODE.BUS },
     ],
   },
 
@@ -124,7 +127,8 @@ export const ITINERARY = [
     segments: [
       { from: 'Zao',          to: 'Goshikinuma Ponds',     mode: MODE.BUS, duration: '~2h 30m' },
       { from: 'Goshikinuma', to: 'Tsuruga Castle (Aizu)',  mode: MODE.BUS, duration: '~30 min' },
-      { from: 'Aizu',       to: 'Ouchi-juku',               mode: MODE.BUS, duration: '~50 min' },
+      { from: 'Aizu',        to: 'Ouchi-juku',              mode: MODE.BUS, duration: '~50 min' },
+      { from: 'Ouchi-juku',  to: 'Higashiyama Onsen',      mode: MODE.BUS, duration: '~40 min' },
     ],
     attractions: [
       { name: 'Goshikinuma Ponds', googleUrl: 'https://maps.app.goo.gl/Yd1RaoqBVijSbt9r9' },
@@ -149,6 +153,7 @@ export const ITINERARY = [
       { points: [[38.1319, 140.5607], [37.6509, 140.0732]], mode: MODE.BUS },
       { points: [[37.6509, 140.0732], [37.4878, 139.9297]], mode: MODE.BUS },
       { points: [[37.4878, 139.9297], [37.3342, 139.8607]], mode: MODE.BUS },
+      { points: [[37.3342, 139.8607], [37.4822, 139.9587]], mode: MODE.BUS },
     ],
   },
 
@@ -159,7 +164,7 @@ export const ITINERARY = [
     icon: '⛩️',
     title: 'Fukushima → Nikkō, Tochigi',
     segments: [
-      { from: 'Ouchi-juku / Fukushima', to: 'Nikkō', mode: MODE.BUS, duration: '~3h' },
+      { from: 'Aizuwakamatsu', to: 'Nikkō', mode: MODE.BUS, duration: '~3h' },
     ],
     attractions: [
       { name: 'Edo Wonderland',  googleUrl: 'https://maps.app.goo.gl/iie9meEFEazCpceA8' },
@@ -174,14 +179,14 @@ export const ITINERARY = [
       night: 5,
     },
     mapPoints: [
-      { lat: 37.3342, lng: 139.8607, label: 'Ouchi-juku',    type: 'stop',       googleUrl: 'https://maps.app.goo.gl/6eAeK9z6ibU7uMe78' },
+      { lat: 37.4822, lng: 139.9587, label: 'Higashiyama Onsen', type: 'stop' },
       { lat: 36.7908, lng: 139.6973, label: 'Edo Wonderland', type: 'attraction', googleUrl: 'https://maps.app.goo.gl/iie9meEFEazCpceA8' },
       { lat: 36.7581, lng: 139.5987, label: 'Nikkō Tōshō-gū', type: 'attraction', googleUrl: 'https://maps.app.goo.gl/vZZgbYsyjL2CFMVS9' },
       { lat: 36.7381, lng: 139.5019, label: 'Kegon Falls',    type: 'attraction', googleUrl: 'https://maps.app.goo.gl/zKJq5WvhNPtf2VgR7' },
       { lat: 36.7476, lng: 139.4713, label: 'Oku-Nikkō',      type: 'stop' },
     ],
     polylines: [
-      { points: [[37.3342, 139.8607], [36.7908, 139.6973]], mode: MODE.BUS },
+      { points: [[37.4822, 139.9587], [36.7908, 139.6973]], mode: MODE.BUS },
       { points: [[36.7908, 139.6973], [36.7581, 139.5987]], mode: MODE.BUS },
       { points: [[36.7581, 139.5987], [36.7381, 139.5019]], mode: MODE.BUS },
       { points: [[36.7381, 139.5019], [36.7476, 139.4713]], mode: MODE.BUS },
