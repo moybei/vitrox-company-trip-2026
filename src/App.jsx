@@ -35,7 +35,7 @@ export default function App() {
       {/* ── HEADER ─────────────────────────────────────── */}
       <header className="hdr">
         <div className="hdr-inner">
-          <img src="/japan-map.png" alt="Japan map" className="hdr-flag" />
+          <img src={`${import.meta.env.BASE_URL}japan-map.png`} alt="Japan map" className="hdr-flag" />
           <div className="hdr-text">
             <h1>ViTrox Japan Incentive Trip 2026</h1>
             <p>8D7N · Japan Tohoku · 32 Batches</p>
