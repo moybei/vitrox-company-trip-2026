@@ -225,13 +225,14 @@ body {
   left: 0;
   right: 0;
   z-index: 999;
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  height: 0;
+  transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: height;
   box-shadow: 0 6px 20px rgba(0,0,0,0.10);
 }
-.fi-wrap--open { grid-template-rows: 1fr; }
-.fi-inner { overflow: hidden; min-height: 0; }
+.fi-wrap--open { height: var(--fi-h, 300px); }
+.fi-inner { min-height: 0; }
 
 /* ================================================================
    FLIGHT INFO PANEL
@@ -526,12 +527,10 @@ body {
 
 /* Smooth iOS-like accordion body */
 .dc-body-wrap {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: height;
 }
-.dc-body-wrap--open { grid-template-rows: 1fr; }
-.dc-body-inner { overflow: hidden; min-height: 0; }
 
 .dc-body { padding: 0 14px 14px; }
 

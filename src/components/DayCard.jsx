@@ -1,4 +1,4 @@
-﻿import { useRef, useEffect } from 'react';
+﻿import { useRef, useEffect, useState } from 'react';
 import { fmtDate, fmtWeekday, addDays } from '../data/trips';
 import { MODE_LABEL } from '../data/itinerary';
 
@@ -16,6 +16,13 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
   const date    = addDays(tripStart, day.day - 1);
   const colors  = TYPE_COLORS[day.type] || TYPE_COLORS.travel;
   const cardRef = useRef(null);
+  const bodyRef = useRef(null);
+  const [bodyH, setBodyH] = useState(0);
+
+  // Measure content height once on mount (content is static)
+  useEffect(() => {
+    if (bodyRef.current) setBodyH(bodyRef.current.scrollHeight);
+  }, []);
 
   // Scroll card into view when expanded so content isn't cut off
   useEffect(() => {
@@ -54,8 +61,8 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
       </div>
 
       {/* ── Expanded body ── */}
-      <div className={`dc-body-wrap${isSelected ? ' dc-body-wrap--open' : ''}`}>
-        <div className="dc-body-inner">
+      <div className="dc-body-wrap" style={{ height: isSelected ? bodyH : 0 }}>
+        <div ref={bodyRef}>
           <div className="dc-body" onClick={(e) => e.stopPropagation()}>
 
           {/* Travel segments */}
