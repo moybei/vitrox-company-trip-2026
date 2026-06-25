@@ -1,4 +1,4 @@
-﻿import { useRef, useEffect, useState } from 'react';
+﻿import { useRef, useEffect } from 'react';
 import { fmtDate, fmtWeekday, addDays } from '../data/trips';
 import { MODE_LABEL } from '../data/itinerary';
 
@@ -16,13 +16,6 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
   const date    = addDays(tripStart, day.day - 1);
   const colors  = TYPE_COLORS[day.type] || TYPE_COLORS.travel;
   const cardRef = useRef(null);
-  const bodyRef = useRef(null);
-  const [bodyH, setBodyH] = useState(0);
-
-  // Measure content height once on mount (content is static)
-  useEffect(() => {
-    if (bodyRef.current) setBodyH(bodyRef.current.scrollHeight);
-  }, []);
 
   // Scroll after expand/collapse once animation completes (~320ms)
   useEffect(() => {
@@ -71,9 +64,9 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
       </div>
 
       {/* ── Expanded body ── */}
-      <div className="dc-body-wrap" style={{ height: isSelected ? bodyH : 0 }}>
-        <div ref={bodyRef}>
-          <div className="dc-body" onClick={(e) => e.stopPropagation()}>
+      <div className="dc-body-wrap">
+        <div className="dc-body">
+          <div className="dc-body-inner" onClick={(e) => e.stopPropagation()}>
 
           {/* Travel segments */}
           {day.segments.length > 0 && (
@@ -138,7 +131,7 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
               ✈️ Refer to the flight schedule above for departure times.
             </p>
           )}
-        </div>
+          </div>{/* dc-body-inner */}
         </div>
       </div>
     </div>

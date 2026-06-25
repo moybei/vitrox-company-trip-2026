@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useCallback, useEffect } from 'react';
+﻿import { useState, useRef, useCallback } from 'react';
 import './App.css';
 import { TRIPS, parseDate, fmtDate, addDays, getAirline } from './data/trips';
 import { FLIGHTS } from './data/flights';
@@ -12,13 +12,6 @@ export default function App() {
   const [selectedDay, setSelectedDay] = useState(null);
   const [showFlight,  setShowFlight]  = useState(false);
   const mapRef    = useRef(null);
-  const fiInnerRef = useRef(null);
-  const [fiH, setFiH] = useState(0);
-
-  // Measure flight panel height once its content is in the DOM
-  useEffect(() => {
-    if (fiInnerRef.current && !fiH) setFiH(fiInnerRef.current.scrollHeight);
-  });
 
   const trip       = TRIPS.find((t) => t.id === tripId);
   const airlineKey = getAirline(tripId);
@@ -95,9 +88,8 @@ export default function App() {
         {fl && (
           <div
             className={`fi-wrap${showFlight ? ' fi-wrap--open' : ''}`}
-            style={fiH ? { '--fi-h': `${fiH}px` } : {}}
           >
-            <div ref={fiInnerRef} className="fi-inner">
+            <div className="fi-inner">
               <FlightInfo airlineKey={airlineKey} />
             </div>
           </div>

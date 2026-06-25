@@ -225,21 +225,19 @@ body {
   left: 0;
   right: 0;
   z-index: 999;
-  overflow: hidden;
-  height: 0;
-  transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: 0 6px 20px rgba(0,0,0,0.10);
 }
-.fi-wrap--open { height: var(--fi-h, 300px); }
+.fi-wrap--open { grid-template-rows: 1fr; }
 .fi-inner {
-  min-height: 0;
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s ease;
 }
 .fi-wrap--open .fi-inner {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* ================================================================
@@ -524,20 +522,23 @@ body {
 
 /* Smooth iOS-like accordion body */
 .dc-body-wrap {
-  overflow: hidden;
-  transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+.dc--selected .dc-body-wrap { grid-template-rows: 1fr; }
+
 .dc-body {
-  padding: 0 14px 14px;
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s ease;
 }
+
+.dc-body-inner { padding: 0 14px 14px; }
 
 .dc--selected .dc-body {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .dc-segments {
