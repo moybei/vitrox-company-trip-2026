@@ -333,6 +333,7 @@ body {
   border: 1px solid var(--slate-200);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+  isolation: isolate;   /* contain Leaflet z-indexes so ctrl-bar stays on top */
 }
 .map-panel-hdr {
   padding: 10px 14px;
