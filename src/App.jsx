@@ -116,14 +116,6 @@ export default function App() {
         <div className="col-cards">
           <div className="cards-hdr">
             <span className="cards-hdr-title">Day-by-Day Itinerary</span>
-            {selectedDay && (
-              <button
-                className="cards-clear"
-                onClick={() => setSelectedDay(null)}
-              >
-                ✕ Clear
-              </button>
-            )}
           </div>
 
           {start && ITINERARY.map((day) => (

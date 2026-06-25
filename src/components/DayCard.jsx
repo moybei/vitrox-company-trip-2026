@@ -28,7 +28,13 @@ export default function DayCard({ day, tripStart, isSelected, onSelect }) {
   useEffect(() => {
     if (!isSelected || !cardRef.current) return;
     const timer = setTimeout(() => {
-      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const card = cardRef.current;
+      const rect = card.getBoundingClientRect();
+      const bottomGap = 24; // extra space below the card
+      const overflow = rect.bottom + bottomGap - window.innerHeight;
+      if (overflow > 0) {
+        window.scrollBy({ top: overflow, behavior: 'smooth' });
+      }
     }, 340); // after accordion animation completes (~320ms)
     return () => clearTimeout(timer);
   }, [isSelected]);
