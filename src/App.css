@@ -1870,6 +1870,42 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Add group button */
+.cl-add-group-btn {
+  width: 100%; max-width: 480px;
+  padding: 14px;
+  border: 2px dashed #bae6fd; border-radius: 16px;
+  background: none; color: #0369a1;
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) { .cl-add-group-btn:hover { background: #f0f9ff; border-color: #7dd3fc; } }
+
+.cl-add-group-card { width: 100%; max-width: 480px; padding: 14px 16px 10px; }
+.cl-add-group-emoji-row {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+}
+.cl-emoji-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 2px solid transparent; background: #f8fafc;
+  font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.12s, background 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.cl-emoji-btn--on { border-color: #0ea5e9; background: #e0f2fe; }
+.cl-add-group-row { display: flex; align-items: center; gap: 8px; }
+
+/* Delete group button */
+.cl-group-del {
+  border: none; background: none; font-size: 15px;
+  cursor: pointer; padding: 2px 4px; border-radius: 6px;
+  color: #cbd5e1; transition: color 0.12s;
+  -webkit-tap-highlight-color: transparent;
+  margin-left: auto;
+}
+@media (hover: hover) { .cl-group-del:hover { color: #ef4444; } }
+
 /* Undo toast */
 .cl-toast {
   position: fixed;

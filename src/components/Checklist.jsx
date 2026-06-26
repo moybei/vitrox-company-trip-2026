@@ -1,6 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
 
 const STORAGE_KEY = 'vitrox-checklist';
+const CUSTOM_GROUPS_KEY = 'vitrox-checklist-custom-groups';
+
+const CUSTOM_COLORS = [
+  { color: '#b45309', iconBg: '#fef3c7' },
+  { color: '#0369a1', iconBg: '#e0f2fe' },
+  { color: '#7c3aed', iconBg: '#ede9fe' },
+  { color: '#0d9488', iconBg: '#ccfbf1' },
+  { color: '#db2777', iconBg: '#fce7f3' },
+  { color: '#16a34a', iconBg: '#dcfce7' },
+];
+
+const EMOJI_OPTIONS = ['📦','🧴','👟','💊','📷','🎮','🎁','🍱','🧧','💴','🛍','🎀','🔑','📱','🧳','🎶'];
+
+function loadCustomGroups() {
+  try {
+    const d = JSON.parse(localStorage.getItem(CUSTOM_GROUPS_KEY));
+    if (Array.isArray(d)) return d;
+  } catch {}
+  return [];
+}
 
 const DEFAULT_GROUPS = [
   {
@@ -41,6 +61,14 @@ const DEFAULT_GROUPS = [
       { id: 'bj1', text: 'Omiyage (regional gifts)' },
     ],
   },
+  {
+    id: 'buy-airport',
+    emoji: '✈️',
+    label: 'Buy in Airport',
+    color: '#7c3aed',
+    iconBg: '#ede9fe',
+    defaultItems: [],
+  },
 ];
 
 function initState() {
@@ -55,6 +83,10 @@ function initState() {
 
 export default function Checklist() {
   const [items,      setItems]      = useState(initState);
+  const [customGroups, setCustomGroups] = useState(loadCustomGroups);
+  const [addingGroup,  setAddingGroup]  = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
+  const [newGroupEmoji,setNewGroupEmoji]= useState('📦');
   const [toast,      setToast]      = useState(null);
   const [addingTo,   setAddingTo]   = useState(null);
   const [addText,    setAddText]    = useState('');
@@ -70,6 +102,10 @@ export default function Checklist() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
+
+  useEffect(() => {
+    localStorage.setItem(CUSTOM_GROUPS_KEY, JSON.stringify(customGroups));
+  }, [customGroups]);
 
   useEffect(() => () => clearTimeout(toastTimer.current), []);
 
@@ -190,10 +226,28 @@ export default function Checklist() {
     setAddingTo(null);
   }
 
+  function commitAddGroup() {
+    const label = newGroupName.trim();
+    if (!label) return;
+    const idx = customGroups.length % CUSTOM_COLORS.length;
+    const { color, iconBg } = CUSTOM_COLORS[idx];
+    const id = `custom-${Date.now()}`;
+    setCustomGroups(prev => [...prev, { id, emoji: newGroupEmoji, label, color, iconBg }]);
+    setItems(prev => ({ ...prev, [id]: [] }));
+    setNewGroupName('');
+    setNewGroupEmoji('📦');
+    setAddingGroup(false);
+  }
+
+  function deleteCustomGroup(groupId) {
+    setCustomGroups(prev => prev.filter(g => g.id !== groupId));
+    setItems(prev => { const next = { ...prev }; delete next[groupId]; return next; });
+  }
+
   return (
     <>
       <div className="cl-page">
-        {DEFAULT_GROUPS.map(group => {
+        {[...DEFAULT_GROUPS, ...customGroups].map(group => {
           const list      = items[group.id] || [];
           const atTop    = list.filter(i => (!i.checked && !unexitingIds.has(i.id)) || exitingIds.has(i.id));
           const atBottom = list.filter(i => (i.checked  && !exitingIds.has(i.id))   || unexitingIds.has(i.id));
@@ -210,6 +264,18 @@ export default function Checklist() {
                   <span className="cl-label">{group.label}</span>
                   <span className="cl-count">{doneCount} of {total} done</span>
                 </div>
+                {customGroups.some(g => g.id === group.id) && (
+                  <button
+                    className="cl-group-del"
+                    title="Delete group"
+                    onClick={() => {
+                      const list = items[group.id] || [];
+                      if (list.length === 0 || window.confirm(`Delete "${group.label}" and all its items?`)) {
+                        deleteCustomGroup(group.id);
+                      }
+                    }}
+                  >🗑</button>
+                )}
               </div>
 
               <div className="cl-progress-bar">
@@ -274,6 +340,35 @@ export default function Checklist() {
             </div>
           );
         })}
+        {/* Add Group */}
+        {addingGroup ? (
+          <div className="cl-card cl-add-group-card">
+            <div className="cl-add-group-emoji-row">
+              {EMOJI_OPTIONS.map(e => (
+                <button
+                  key={e}
+                  className={`cl-emoji-btn${newGroupEmoji === e ? ' cl-emoji-btn--on' : ''}`}
+                  onClick={() => setNewGroupEmoji(e)}
+                >{e}</button>
+              ))}
+            </div>
+            <div className="cl-add-group-row">
+              <input
+                className="cl-add-input"
+                value={newGroupName}
+                onChange={e => setNewGroupName(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') commitAddGroup(); if (e.key === 'Escape') setAddingGroup(false); }}
+                placeholder="Group name..."
+                maxLength={40}
+                autoFocus
+              />
+              <button className="cl-add-confirm" onClick={commitAddGroup}>Add</button>
+              <button className="cl-add-cancel" onClick={() => setAddingGroup(false)}>✕</button>
+            </div>
+          </div>
+        ) : (
+          <button className="cl-add-group-btn" onClick={() => setAddingGroup(true)}>+ New Group</button>
+        )}
       </div>
 
       {ctxMenu && (
