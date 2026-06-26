@@ -57,45 +57,46 @@ export default function CurrencyConverter() {
 
         {/* ── FROM (editable) ── */}
         <div className="cc-block cc-block--from">
-          <div className="cc-ccy">
-            <img className="cc-flag" src={`https://flagcdn.com/w40/${CURRENCIES[fromCcy].code}.png`} alt={fromCcy} />
-            <div className="cc-ccy-text">
-              <span className="cc-code">{fromCcy}</span>
-              <span className="cc-name">{CURRENCIES[fromCcy].name}</span>
+          <div className="cc-block-inner">
+            <div className="cc-ccy">
+              <img className="cc-flag" src={`https://flagcdn.com/w40/${CURRENCIES[fromCcy].code}.png`} alt={fromCcy} />
+              <div className="cc-ccy-text">
+                <span className="cc-code">{fromCcy}</span>
+                <span className="cc-name">{CURRENCIES[fromCcy].name}</span>
+              </div>
             </div>
+            <input
+              className="cc-input"
+              type="text"
+              inputMode="decimal"
+              value={amount}
+              onChange={(e) => {
+                const v = e.target.value.replace(/[^\d.]/g, '').replace(/^(\d*\.?\d*).*$/, '$1');
+                setAmount(v);
+              }}
+              onFocus={(e) => e.target.select()}
+              placeholder="0"
+            />
           </div>
-          <input
-            className="cc-input"
-            type="text"
-            inputMode="decimal"
-            value={amount}
-            onChange={(e) => {
-              // Allow only digits and a single decimal point
-              const v = e.target.value.replace(/[^\d.]/g, '').replace(/^(\d*\.?\d*).*$/, '$1');
-              setAmount(v);
-            }}
-            onFocus={(e) => e.target.select()}
-            placeholder="0"
-          />
         </div>
 
         {/* ── SWAP DIVIDER ── */}
         <div className="cc-divider">
-          <div className="cc-divider-line" />
           <button className="cc-swap" onClick={handleSwap} aria-label="Swap currencies">⇅</button>
-          <div className="cc-divider-line" />
         </div>
 
         {/* ── TO (read-only result) ── */}
         <div className="cc-block cc-block--to">
-          <div className="cc-ccy">
-            <img className="cc-flag" src={`https://flagcdn.com/w40/${CURRENCIES[toCcy].code}.png`} alt={toCcy} />
-            <div className="cc-ccy-text">
-              <span className="cc-code cc-code--to">{toCcy}</span>
-              <span className="cc-name">{CURRENCIES[toCcy].name}</span>
+          <div className="cc-block-inner">
+            <div className="cc-ccy">
+              <img className="cc-flag" src={`https://flagcdn.com/w40/${CURRENCIES[toCcy].code}.png`} alt={toCcy} />
+              <div className="cc-ccy-text">
+                <span className="cc-code cc-code--to">{toCcy}</span>
+                <span className="cc-name">{CURRENCIES[toCcy].name}</span>
+              </div>
             </div>
+            <span className={`cc-result${!rate ? ' cc-result--empty' : ''}`}>{resultStr}</span>
           </div>
-          <span className={`cc-result${!rate ? ' cc-result--empty' : ''}`}>{resultStr}</span>
         </div>
 
         {/* ── RATE + SOURCE ── */}

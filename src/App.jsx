@@ -4,10 +4,12 @@ import { TRIPS, parseDate, fmtDate, addDays, getAirline } from './data/trips';
 import { FLIGHTS } from './data/flights';
 import { ITINERARY } from './data/itinerary';
 import { useWeather } from './hooks/useWeather';
+const TAB_KEY = 'vitrox-tab';
 import FlightInfo        from './components/FlightInfo';
 import TripMap           from './components/TripMap';
 import DayCard           from './components/DayCard';
 import CurrencyConverter from './components/CurrencyConverter';
+import Checklist        from './components/Checklist';
 
 const STORAGE_KEY = 'vitrox-trip-id';
 
@@ -35,7 +37,15 @@ export default function App() {
     const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
     return saved && TRIPS.some((t) => t.id === saved) ? saved : 1;
   });
-  const [page,        setPage]        = useState('itinerary');
+  const [tab,         setTab]         = useState(() => localStorage.getItem(TAB_KEY) || 'home');
+  const isHome                         = tab === 'home';
+  const [menuOpen,    setMenuOpen]    = useState(false);
+
+  function goTo(t) {
+    localStorage.setItem(TAB_KEY, t);
+    setTab(t);
+    setMenuOpen(false);
+  }
   const [selectedDay, setSelectedDay] = useState(null);
   const [showFlight,  setShowFlight]  = useState(false);
   const [showPicker,  setShowPicker]  = useState(false);
@@ -88,30 +98,54 @@ export default function App() {
       {/* ── NAVBAR ─────────────────────────────────────── */}
       <header className="hdr">
         <div className="hdr-inner">
-          <img src={`${import.meta.env.BASE_URL}japan-map.png`} alt="Japan map" className="hdr-flag" />
-          <div className="hdr-text">
-            <h1>ViTrox Japan Incentive Trip 2026</h1>
-            <p>8D7N · Japan Tohoku · 32 Batches</p>
-          </div>
+
+          {/* Brand — links home */}
+          <button className="hdr-brand" onClick={() => goTo('home')} aria-label="Home">
+            <img src={`${import.meta.env.BASE_URL}japan-map.png`} alt="Japan map" className="hdr-flag" />
+            <div className="hdr-text">
+              <h1>ViTrox Japan Incentive Trip 2026</h1>
+              <p>8D7N · Japan Tohoku · 32 Batches</p>
+            </div>
+          </button>
+
+          {/* Desktop nav */}
           <nav className="hdr-nav">
-            <button
-              className={`nav-tab${page === 'itinerary' ? ' nav-tab--active' : ''}`}
-              onClick={() => setPage('itinerary')}
-            >
-              🗓 Itinerary
-            </button>
-            <button
-              className={`nav-tab${page === 'currency' ? ' nav-tab--active' : ''}`}
-              onClick={() => setPage('currency')}
-            >
+            <button className={`nav-tab${tab === 'currency' ? ' nav-tab--active' : ''}`} onClick={() => goTo('currency')}>
               💴 Currency
             </button>
+            <button className={`nav-tab${tab === 'checklist' ? ' nav-tab--active' : ''}`} onClick={() => goTo('checklist')}>
+              📋 Checklist
+            </button>
           </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            className={`hdr-burger${menuOpen ? ' hdr-burger--open' : ''}`}
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+
+        {/* Mobile dropdown — always rendered, animated via CSS */}
+        <div className={`hdr-mobile-menu${menuOpen ? ' hdr-mobile-menu--open' : ''}`}>
+          <div className="hdr-mobile-inner">
+            <button className="hdr-mobile-link" onClick={() => goTo('currency')}>
+              <span className="hdr-mobile-icon">💴</span>
+              <span>Currency</span>
+            </button>
+            <button className="hdr-mobile-link" onClick={() => goTo('checklist')}>
+              <span className="hdr-mobile-icon">📋</span>
+              <span>Checklist</span>
+            </button>
+          </div>
         </div>
       </header>
 
       {/* ── ITINERARY PAGE ──────────────────────────────── */}
-      {page === 'itinerary' && (
+      {isHome && (
         <>
           {/* ── CONTROLS ── */}
           <div className="ctrl-bar">
@@ -218,7 +252,10 @@ export default function App() {
       )}
 
       {/* ── CURRENCY PAGE ───────────────────────────────── */}
-      {page === 'currency' && <CurrencyConverter />}
+      {tab === 'currency' && <CurrencyConverter />}
+
+      {/* ── CHECKLIST PAGE ──────────────────────────────── */}
+      {tab === 'checklist' && <Checklist />}
 
     </div>
   );
