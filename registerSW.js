@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/vitrox-company-trip-2026/sw.js', { scope: '/vitrox-company-trip-2026/' })})}
