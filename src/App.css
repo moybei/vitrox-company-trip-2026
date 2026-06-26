@@ -130,56 +130,36 @@ body {
   }
 }
 
-/* ── Trip Row (flat display) ── */
-.trip-row {
+/* ── Date badge selector ── */
+.date-badge {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-}
-.trip-row-text {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  min-width: 0;
-}
-.trip-row-id {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--slate-700);
-  white-space: nowrap;
-}
-.trip-row-dates {
+  gap: 6px;
+  padding: 5px 12px;
+  background: #e0f2fe;
+  border-radius: 6px;
   font-size: 12px;
-  font-weight: 500;
-  color: var(--slate-400);
+  font-weight: 600;
+  color: #0369a1;
   white-space: nowrap;
 }
-
-/* ── Countdown badge (the selector trigger) ── */
-.trip-cd-btn {
-  flex-shrink: 0;
-  padding: 4px 12px;
-  border: none;
-  border-radius: 99px;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
+.date-badge--btn {
+  border: 1px solid transparent;
   cursor: pointer;
-  transition: filter .15s, transform .1s;
+  font-family: inherit;
+  transition: background .15s, border-color .15s;
   -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
 }
-.trip-cd-btn:hover  { filter: brightness(0.93); }
-.trip-cd-btn:active { transform: scale(0.96); }
-.trip-cd-btn:focus  { outline: none; }
-.trip-cd-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-.trip-cd-btn--open  { filter: brightness(0.88); }
+.date-badge--btn:hover  { background: #bae6fd; }
+.date-badge--open       { background: #bae6fd; border-color: #7dd3fc; }
+.date-badge--btn:focus  { outline: none; }
+.date-badge--btn:focus-visible { outline: 2px solid #0369a1; outline-offset: 2px; }
+.date-badge-cd {
+  opacity: 0.75;
+  font-weight: 500;
+}
 
-/* Countdown colors — applied to badge button and dropdown pills */
+/* Countdown colors — applied to dropdown pills */
 .cd--soon    { background: #dbeafe; color: #1d4ed8; }
 .cd--today   { background: #dcfce7; color: #15803d; }
 .cd--active  { background: #dcfce7; color: #15803d; }
