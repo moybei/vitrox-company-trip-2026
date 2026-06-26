@@ -13,8 +13,9 @@ function fmtResult(n, ccy) {
 
 export default function CurrencyConverter() {
   const { rate, updatedAt, fetching } = useExchangeRate();
-  const [amount, setAmount] = useState('100');
-  const [toJpy,  setToJpy]  = useState(true); // true = MYR→JPY, false = JPY→MYR
+  const [amount,   setAmount]   = useState('100');
+  const [toJpy,    setToJpy]    = useState(true);
+  const [swapping, setSwapping] = useState(false);
 
   const fromCcy = toJpy ? 'MYR' : 'JPY';
   const toCcy   = toJpy ? 'JPY' : 'MYR';
@@ -23,13 +24,18 @@ export default function CurrencyConverter() {
   const resultStr = resultNum !== null ? fmtResult(resultNum, toCcy) : '—';
 
   function handleSwap() {
-    // The current result becomes the new input
-    if (rate && resultNum !== null) {
-      setAmount(toJpy
-        ? String(Math.round(resultNum))          // JPY → whole number
-        : resultNum.toFixed(2));                 // MYR → 2dp
-    }
-    setToJpy((v) => !v);
+    if (swapping) return;
+    setSwapping(true);
+    // Wait for fade-out (130ms), then swap data, then fade back in
+    setTimeout(() => {
+      if (rate && resultNum !== null) {
+        setAmount(toJpy
+          ? String(Math.round(resultNum))
+          : resultNum.toFixed(2));
+      }
+      setToJpy((v) => !v);
+      setSwapping(false);
+    }, 130);
   }
 
   const rateText = rate
@@ -47,7 +53,7 @@ export default function CurrencyConverter() {
 
   return (
     <div className="cc-page">
-      <div className="cc-card">
+      <div className={`cc-card${swapping ? ' cc-card--swapping' : ''}`}>
 
         {/* ── FROM (editable) ── */}
         <div className="cc-block cc-block--from">

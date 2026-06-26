@@ -974,9 +974,8 @@ body {
   align-items: center;
   gap: 0;
   padding: 0 20px;
-  background: var(--white);
-  border-top: 1px solid #e0f2fe;
-  border-bottom: 1px solid #e0f2fe;
+  background: #f0f9ff;        /* same as to-block so blue starts here */
+  border-top: 1px solid #bae6fd;
 }
 .cc-divider-line {
   flex: 1;
@@ -1001,12 +1000,21 @@ body {
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
 }
-.cc-swap:hover  { background: #e0f2fe; border-color: var(--blue-400); color: var(--blue-700); transform: rotate(180deg); }
-.cc-swap:active { transform: rotate(180deg) scale(0.92); }
+@media (hover: hover) {
+  .cc-swap:hover { background: #e0f2fe; border-color: var(--blue-400); color: var(--blue-700); transform: rotate(180deg); }
+}
+.cc-swap:active { transform: scale(0.92); }
 .cc-swap:focus  { outline: none; }
 .cc-swap:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
 
-/* ── Footer ── */
+/* ── Swap animation ── */
+.cc-block {
+  transition: opacity 0.13s ease, transform 0.13s ease;
+}
+.cc-card--swapping .cc-block {
+  opacity: 0;
+  transform: translateY(5px);
+}
 .cc-footer {
   padding: 12px 20px 16px;
   background: #f8fbff;
