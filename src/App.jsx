@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useCallback } from 'react';
+﻿import { useState, useRef, useCallback, useEffect } from 'react';
 import './App.css';
 import { TRIPS, parseDate, fmtDate, addDays, getAirline } from './data/trips';
 import { FLIGHTS } from './data/flights';
@@ -10,6 +10,25 @@ import DayCard    from './components/DayCard';
 
 const STORAGE_KEY = 'vitrox-trip-id';
 
+// Countdown helpers
+function getDaysUntil(date) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.ceil((date - today) / (1000 * 60 * 60 * 24));
+}
+function countdownLabel(days) {
+  if (days > 1)   return `in ${days} days`;
+  if (days === 1) return 'Tomorrow';
+  if (days === 0) return 'Today!';
+  if (days >= -7) return 'Ongoing';
+  return null;
+}
+function countdownMod(days) {
+  if (days > 0)  return 'cd--soon';
+  if (days >= 0) return 'cd--today';
+  return 'cd--active';
+}
+
 export default function App() {
   const [tripId,      setTripId]      = useState(() => {
     const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
@@ -17,7 +36,25 @@ export default function App() {
   });
   const [selectedDay, setSelectedDay] = useState(null);
   const [showFlight,  setShowFlight]  = useState(false);
-  const mapRef    = useRef(null);
+  const [showPicker,  setShowPicker]  = useState(false);
+  const mapRef       = useRef(null);
+  const pickerRef    = useRef(null);
+
+  // Close trip picker on outside click
+  useEffect(() => {
+    if (!showPicker) return;
+    function handleOutside(e) {
+      if (pickerRef.current && !pickerRef.current.contains(e.target)) {
+        setShowPicker(false);
+      }
+    }
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside, { passive: true });
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+    };
+  }, [showPicker]);
 
   const trip       = TRIPS.find((t) => t.id === tripId);
   const airlineKey = getAirline(tripId);
@@ -61,25 +98,48 @@ export default function App() {
       <div className="ctrl-bar">
         <div className="ctrl-bar-inner">
 
-          <div className="ctrl-left">
-            <label className="ctrl-lbl" htmlFor="tripSel">Trip</label>
-            <div className="sel-wrap">
-              <select
-                id="tripSel"
-                value={tripId}
-                onChange={(e) => handleTripChange(Number(e.target.value))}
-              >
-                {TRIPS.map((t) => (
-                  <option key={t.id} value={t.id}>Trip {t.id}</option>
-                ))}
-              </select>
-            </div>
+          <div className="ctrl-left" ref={pickerRef}>
+            {/* ── TRIP PICKER BUTTON ── */}
+            <button
+              className={`trip-btn${showPicker ? ' trip-btn--open' : ''}`}
+              onClick={() => setShowPicker((v) => !v)}
+              aria-haspopup="listbox"
+              aria-expanded={showPicker}
+            >
+              <span className="trip-btn-id">Trip {tripId}</span>
+              {start && (
+                <span className="trip-btn-dates">{fmtDate(start)} – {fmtDate(end)}</span>
+              )}
+              {start && countdownLabel(getDaysUntil(start)) && (
+                <span className={`trip-btn-cd ${countdownMod(getDaysUntil(start))}`}>
+                  {countdownLabel(getDaysUntil(start))}
+                </span>
+              )}
+              <span className={`trip-btn-chev${showPicker ? ' trip-btn-chev--open' : ''}`}>▼</span>
+            </button>
 
-            {start && (
-              <div className="date-badge">
-                {fmtDate(start)}
-                <span className="date-arrow">→</span>
-                {fmtDate(end)}
+            {/* ── TRIP DROPDOWN ── */}
+            {showPicker && (
+              <div className="trip-dd" role="listbox" aria-label="Select trip batch">
+                {TRIPS.map((t) => {
+                  const s   = parseDate(t.start);
+                  const e   = addDays(s, 7);
+                  const days = getDaysUntil(s);
+                  const cd  = countdownLabel(days);
+                  return (
+                    <button
+                      key={t.id}
+                      role="option"
+                      aria-selected={t.id === tripId}
+                      className={`trip-dd-item${t.id === tripId ? ' trip-dd-item--active' : ''}`}
+                      onClick={() => { handleTripChange(t.id); setShowPicker(false); }}
+                    >
+                      <span className="trip-dd-id">Trip {t.id}</span>
+                      <span className="trip-dd-dates">{fmtDate(s)} – {fmtDate(e)}</span>
+                      {cd && <span className={`trip-dd-cd ${countdownMod(days)}`}>{cd}</span>}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
