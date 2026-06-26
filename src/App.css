@@ -912,8 +912,8 @@ body {
   padding: 20px 20px 16px;
   gap: 12px;
 }
-.cc-block--from { background: #f0f9ff; }
-.cc-block--to   { background: var(--white); }
+.cc-block--from { background: var(--white); }
+.cc-block--to   { background: #f0f9ff; }
 
 .cc-ccy {
   display: flex;
@@ -921,7 +921,7 @@ body {
   gap: 10px;
   flex-shrink: 0;
 }
-.cc-flag { font-size: 28px; line-height: 1; }
+.cc-flag { width: 32px; height: auto; border-radius: 3px; object-fit: cover; display: block; }
 .cc-ccy-text { display: flex; flex-direction: column; gap: 1px; }
 .cc-code {
   font-size: 15px;

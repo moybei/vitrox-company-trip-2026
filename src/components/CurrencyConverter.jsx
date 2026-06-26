@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useExchangeRate } from '../hooks/useExchangeRate';
 
 const CURRENCIES = {
-  MYR: { flag: '🇲🇾', name: 'Malaysian Ringgit' },
-  JPY: { flag: '🇯🇵', name: 'Japanese Yen'      },
+  MYR: { code: 'my', name: 'Malaysian Ringgit' },
+  JPY: { code: 'jp', name: 'Japanese Yen'      },
 };
 
 function fmtResult(n, ccy) {
@@ -35,7 +35,7 @@ export default function CurrencyConverter() {
   const rateText = rate
     ? toJpy
       ? `1 MYR = ${rate.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} JPY`
-      : `1 JPY = ${(1 / rate).toLocaleString('en-MY', { minimumFractionDigits: 4, maximumFractionDigits: 6 })} MYR`
+      : `100 JPY = ${(100 / rate).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} MYR`
     : null;
 
   const lastUpdated = updatedAt
@@ -52,7 +52,7 @@ export default function CurrencyConverter() {
         {/* ── FROM (editable) ── */}
         <div className="cc-block cc-block--from">
           <div className="cc-ccy">
-            <span className="cc-flag">{CURRENCIES[fromCcy].flag}</span>
+            <img className="cc-flag" src={`https://flagcdn.com/w40/${CURRENCIES[fromCcy].code}.png`} alt={fromCcy} />
             <div className="cc-ccy-text">
               <span className="cc-code">{fromCcy}</span>
               <span className="cc-name">{CURRENCIES[fromCcy].name}</span>
@@ -83,7 +83,7 @@ export default function CurrencyConverter() {
         {/* ── TO (read-only result) ── */}
         <div className="cc-block cc-block--to">
           <div className="cc-ccy">
-            <span className="cc-flag">{CURRENCIES[toCcy].flag}</span>
+            <img className="cc-flag" src={`https://flagcdn.com/w40/${CURRENCIES[toCcy].code}.png`} alt={toCcy} />
             <div className="cc-ccy-text">
               <span className="cc-code cc-code--to">{toCcy}</span>
               <span className="cc-name">{CURRENCIES[toCcy].name}</span>
