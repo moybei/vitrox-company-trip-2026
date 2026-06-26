@@ -10,6 +10,7 @@ import TripMap           from './components/TripMap';
 import DayCard           from './components/DayCard';
 import CurrencyConverter from './components/CurrencyConverter';
 import Checklist        from './components/Checklist';
+import Splitter         from './components/Splitter';
 
 const STORAGE_KEY = 'vitrox-trip-id';
 
@@ -116,6 +117,9 @@ export default function App() {
             <button className={`nav-tab${tab === 'checklist' ? ' nav-tab--active' : ''}`} onClick={() => goTo('checklist')}>
               📋 Checklist
             </button>
+            <button className={`nav-tab${tab === 'splitter' ? ' nav-tab--active' : ''}`} onClick={() => goTo('splitter')}>
+              💰 Split
+            </button>
           </nav>
 
           {/* Mobile hamburger */}
@@ -139,6 +143,10 @@ export default function App() {
             <button className="hdr-mobile-link" onClick={() => goTo('checklist')}>
               <span className="hdr-mobile-icon">📋</span>
               <span>Checklist</span>
+            </button>
+            <button className="hdr-mobile-link" onClick={() => goTo('splitter')}>
+              <span className="hdr-mobile-icon">💰</span>
+              <span>Split</span>
             </button>
           </div>
         </div>
@@ -252,6 +260,9 @@ export default function App() {
 
       {/* ── CHECKLIST PAGE ──────────────────────────────── */}
       {tab === 'checklist' && <div className="tab-page"><Checklist /></div>}
+
+      {/* ── SPLITTER PAGE ───────────────────────────────── */}
+      {tab === 'splitter' && <div className="tab-page"><Splitter /></div>}
 
       <footer className="ftr">
         2026 ViTrox Company Incentive Trip · Japan Tohoku 8D7N
