@@ -146,7 +146,7 @@ export default function App() {
 
       {/* ── ITINERARY PAGE ──────────────────────────────── */}
       {isHome && (
-        <>
+        <div className="tab-page">
           {/* ── CONTROLS ── */}
           <div className="ctrl-bar">
             <div className="ctrl-bar-inner">
@@ -244,18 +244,18 @@ export default function App() {
               )}
             </div>
           </div>
-
-          <footer className="ftr">
-            2026 ViTrox Company Incentive Trip · Japan Tohoku 8D7N
-          </footer>
-        </>
+        </div>
       )}
 
       {/* ── CURRENCY PAGE ───────────────────────────────── */}
-      {tab === 'currency' && <CurrencyConverter />}
+      {tab === 'currency' && <div className="tab-page"><CurrencyConverter /></div>}
 
       {/* ── CHECKLIST PAGE ──────────────────────────────── */}
-      {tab === 'checklist' && <Checklist />}
+      {tab === 'checklist' && <div className="tab-page"><Checklist /></div>}
+
+      <footer className="ftr">
+        2026 ViTrox Company Incentive Trip · Japan Tohoku 8D7N
+      </footer>
 
     </div>
   );
