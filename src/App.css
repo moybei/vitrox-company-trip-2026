@@ -121,7 +121,7 @@ body {
   }
   .ctrl-left {
     flex-wrap: nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     flex: none;
     width: 100%;
   }
@@ -154,6 +154,12 @@ body {
 .date-badge--open       { background: #bae6fd; border-color: #7dd3fc; }
 .date-badge--btn:focus  { outline: none; }
 .date-badge--btn:focus-visible { outline: 2px solid #0369a1; outline-offset: 2px; }
+.date-badge-trip {
+  font-weight: 700;
+}
+.date-badge-sep {
+  opacity: 0.5;
+}
 .date-badge-cd {
   opacity: 0.75;
   font-weight: 500;
@@ -170,7 +176,8 @@ body {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
-  min-width: max(100%, 320px);
+  min-width: 280px;
+  max-width: 360px;
   max-height: 56vh;
   overflow-y: auto;
   overscroll-behavior: contain;

@@ -99,14 +99,15 @@ export default function App() {
         <div className="ctrl-bar-inner">
 
           <div className="ctrl-left" ref={pickerRef}>
-            {/* ── TRIP LABEL + DATE BADGE SELECTOR ── */}
-            <span className="ctrl-lbl">Trip {tripId}</span>
+            {/* ── DATE BADGE SELECTOR ── */}
             <button
               className={`date-badge date-badge--btn${showPicker ? ' date-badge--open' : ''}`}
               onClick={() => setShowPicker((v) => !v)}
               aria-haspopup="listbox"
               aria-expanded={showPicker}
             >
+              <span className="date-badge-trip">Trip {tripId}</span>
+              {start && <span className="date-badge-sep">·</span>}
               {start && `${fmtDate(start)} – ${fmtDate(end)}`}
               {start && countdownLabel(getDaysUntil(start)) && (
                 <span className="date-badge-cd">· {countdownLabel(getDaysUntil(start))}</span>
