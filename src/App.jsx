@@ -1,4 +1,5 @@
 ﻿import { useState, useRef, useCallback, useEffect } from 'react';
+import { useRegisterSW } from 'virtual:pwa-register/react';
 import './App.css';
 import { TRIPS, parseDate, fmtDate, addDays, getAirline } from './data/trips';
 import { FLIGHTS } from './data/flights';
@@ -34,6 +35,11 @@ function countdownMod(days) {
 }
 
 export default function App() {
+  const {
+    needRefresh: [needRefresh],
+    updateServiceWorker,
+  } = useRegisterSW();
+
   const [tripId,      setTripId]      = useState(() => {
     const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
     return saved && TRIPS.some((t) => t.id === saved) ? saved : 1;
@@ -95,6 +101,14 @@ export default function App() {
 
   return (
     <div className="app">
+
+      {/* ── UPDATE BANNER ───────────────────────────────── */}
+      {needRefresh && (
+        <div className="pwa-update-bar">
+          <span>New version available</span>
+          <button className="pwa-update-btn" onClick={() => updateServiceWorker(true)}>Reload</button>
+        </div>
+      )}
 
       {/* ── NAVBAR ─────────────────────────────────────── */}
       <header className="hdr">

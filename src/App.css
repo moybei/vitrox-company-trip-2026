@@ -3,6 +3,28 @@
 ================================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* PWA update banner */
+.pwa-update-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  padding: 10px 16px;
+  background: #0f172a; color: #fff;
+  font-size: 13px; font-weight: 500;
+  animation: pwa-bar-in 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+@keyframes pwa-bar-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.pwa-update-btn {
+  padding: 5px 14px; border-radius: 8px; border: none;
+  background: #38bdf8; color: #0f172a;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+
+
+
 :root {
   --navy:      #0f172a;
   --navy-80:   #1e293b;
