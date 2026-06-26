@@ -130,66 +130,60 @@ body {
   }
 }
 
-/* ── Trip Picker Button ── */
-.trip-btn {
+/* ── Trip Row (flat display) ── */
+.trip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+.trip-row-text {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 7px 12px;
-  background: var(--white);
-  border: 1px solid var(--slate-200);
-  border-radius: var(--r-sm);
-  cursor: pointer;
-  font-family: inherit;
-  transition: border-color .15s, background .15s;
-  text-align: left;
-  -webkit-tap-highlight-color: transparent;
-  max-width: 100%;
+  min-width: 0;
 }
-@media (max-width: 639px) {
-  .trip-btn { width: 100%; }
-}
-.trip-btn:hover { background: var(--slate-50); border-color: var(--slate-300); }
-.trip-btn--open { background: var(--slate-50); border-color: var(--blue-400); box-shadow: 0 0 0 3px rgba(59,130,246,.10); }
-.trip-btn:focus { outline: none; }
-.trip-btn:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
-
-.trip-btn-id {
+.trip-row-id {
   font-size: 13px;
   font-weight: 700;
-  color: var(--blue-600);
+  color: var(--slate-700);
   white-space: nowrap;
-  flex-shrink: 0;
 }
-.trip-btn-dates {
+.trip-row-dates {
   font-size: 12px;
   font-weight: 500;
-  color: var(--slate-600);
-  white-space: nowrap;
-}
-.trip-btn-chev {
-  font-size: 9px;
   color: var(--slate-400);
-  margin-left: auto;
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
-}
-.trip-btn-chev--open { transform: rotate(180deg); }
-
-/* Countdown pill (shared between button + dropdown) */
-.trip-btn-cd, .trip-dd-cd {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 99px;
   white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0.2px;
 }
-.cd--soon   { background: #dbeafe; color: #1d4ed8; }
-.cd--today  { background: #dcfce7; color: #15803d; }
-.cd--active { background: #dcfce7; color: #15803d; }
+
+/* ── Countdown badge (the selector trigger) ── */
+.trip-cd-btn {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 99px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: filter .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+.trip-cd-btn:hover  { filter: brightness(0.93); }
+.trip-cd-btn:active { transform: scale(0.96); }
+.trip-cd-btn:focus  { outline: none; }
+.trip-cd-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.trip-cd-btn--open  { filter: brightness(0.88); }
+
+/* Countdown colors — applied to badge button and dropdown pills */
+.cd--soon    { background: #dbeafe; color: #1d4ed8; }
+.cd--today   { background: #dcfce7; color: #15803d; }
+.cd--active  { background: #dcfce7; color: #15803d; }
+.cd--neutral { background: var(--slate-100); color: var(--slate-500); }
 
 /* ── Trip Dropdown ── */
 .trip-dd {
@@ -253,6 +247,12 @@ body {
 }
 .trip-dd-cd {
   margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Airline button */

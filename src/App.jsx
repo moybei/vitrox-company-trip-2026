@@ -99,24 +99,23 @@ export default function App() {
         <div className="ctrl-bar-inner">
 
           <div className="ctrl-left" ref={pickerRef}>
-            {/* ── TRIP PICKER BUTTON ── */}
-            <button
-              className={`trip-btn${showPicker ? ' trip-btn--open' : ''}`}
-              onClick={() => setShowPicker((v) => !v)}
-              aria-haspopup="listbox"
-              aria-expanded={showPicker}
-            >
-              <span className="trip-btn-id">Trip {tripId}</span>
-              {start && (
-                <span className="trip-btn-dates">{fmtDate(start)} – {fmtDate(end)}</span>
-              )}
-              {start && countdownLabel(getDaysUntil(start)) && (
-                <span className={`trip-btn-cd ${countdownMod(getDaysUntil(start))}`}>
-                  {countdownLabel(getDaysUntil(start))}
-                </span>
-              )}
-              <span className={`trip-btn-chev${showPicker ? ' trip-btn-chev--open' : ''}`}>▼</span>
-            </button>
+            {/* ── TRIP ROW (flat) ── */}
+            <div className="trip-row">
+              <div className="trip-row-text">
+                <span className="trip-row-id">Trip {tripId}</span>
+                {start && (
+                  <span className="trip-row-dates">{fmtDate(start)} – {fmtDate(end)}</span>
+                )}
+              </div>
+              <button
+                className={`trip-cd-btn ${start ? countdownMod(getDaysUntil(start)) : 'cd--neutral'}${showPicker ? ' trip-cd-btn--open' : ''}`}
+                onClick={() => setShowPicker((v) => !v)}
+                aria-haspopup="listbox"
+                aria-expanded={showPicker}
+              >
+                {start ? (countdownLabel(getDaysUntil(start)) ?? 'Select') : 'Select'}
+              </button>
+            </div>
 
             {/* ── TRIP DROPDOWN ── */}
             {showPicker && (
