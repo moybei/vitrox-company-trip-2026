@@ -310,7 +310,7 @@ export default function App() {
       {/* ── PHRASES PAGE ───────────────────────────────── */}
       {tab === 'phrases' && <div className="tab-page"><Phrases /></div>}      {/* ── SOS PAGE ──────────────────────────────────────── */}
       {tab === 'sos' && <div className="tab-page"><SOS goTo={goTo} /></div>}      {/* ── SHARE PAGE ─────────────────────────────────────── */}
-      {tab === 'share' && <div className="tab-page"><Share /></div>}
+      {tab === 'share' && <div className="tab-page"><Share updateServiceWorker={updateServiceWorker} /></div>}
       <footer className="ftr">
         2026 ViTrox Company Incentive Trip · Japan Tohoku 8D7N
       </footer>
