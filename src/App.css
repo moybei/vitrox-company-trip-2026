@@ -2256,10 +2256,15 @@ body {
 }
 .ph-row-show {
   flex-shrink: 0;
-  font-size: 16px;
-  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
   padding: 6px;
+  transition: color 0.15s;
 }
+.ph-row:active .ph-row-show { color: #0ea5e9; }
+@media (hover: hover) { .ph-row:hover .ph-row-show { color: #0ea5e9; } }
 
 /* Show-to-staff modal */
 .ph-modal {
