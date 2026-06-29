@@ -11,6 +11,16 @@ function matchesQuery(it, q) {
   );
 }
 
+// Split "Base text (pronunciation hint)" into two parts so the hint can sit on its own line.
+function splitRomaji(romaji) {
+  const i = romaji.indexOf('(');
+  if (i === -1) return { base: romaji, hint: '' };
+  return {
+    base: romaji.slice(0, i).trim(),
+    hint: romaji.slice(i).trim(),
+  };
+}
+
 export default function Phrases() {
   const [query, setQuery] = useState('');
   const [activeTab, setActiveTab] = useState(() => {
@@ -139,25 +149,29 @@ export default function Phrases() {
             </div>
 
             <ul className="ph-list">
-              {group.items.map((it, idx) => (
-                <li key={idx}>
-                  <button className="ph-row" onClick={() => setActive(it)}>
-                    <div className="ph-row-main">
-                      <div className="ph-row-en">{it.en}</div>
-                      <div className="ph-row-jp">{it.jp}</div>
-                      <div className="ph-row-romaji">{it.romaji}</div>
-                    </div>
-                    <span className="ph-row-show" aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="15 3 21 3 21 9" />
-                        <polyline points="9 21 3 21 3 15" />
-                        <line x1="21" y1="3" x2="14" y2="10" />
-                        <line x1="3" y1="21" x2="10" y2="14" />
-                      </svg>
-                    </span>
-                  </button>
-                </li>
-              ))}
+              {group.items.map((it, idx) => {
+                const { base, hint } = splitRomaji(it.romaji);
+                return (
+                  <li key={idx}>
+                    <button className="ph-row" onClick={() => setActive(it)}>
+                      <div className="ph-row-main">
+                        <div className="ph-row-en">{it.en}</div>
+                        <div className="ph-row-jp">{it.jp}</div>
+                        <div className="ph-row-romaji">{base}</div>
+                        {hint && <div className="ph-row-romaji-hint">{hint}</div>}
+                      </div>
+                      <span className="ph-row-show" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="15 3 21 3 21 9" />
+                          <polyline points="9 21 3 21 3 15" />
+                          <line x1="21" y1="3" x2="14" y2="10" />
+                          <line x1="3" y1="21" x2="10" y2="14" />
+                        </svg>
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         ))}
@@ -169,7 +183,15 @@ export default function Phrases() {
             <button className="ph-modal-close" onClick={() => setActive(null)} aria-label="Close">×</button>
             <div className="ph-modal-en">{active.en}</div>
             <div className="ph-modal-jp">{active.jp}</div>
-            <div className="ph-modal-romaji">{active.romaji}</div>
+            {(() => {
+              const { base, hint } = splitRomaji(active.romaji);
+              return (
+                <>
+                  <div className="ph-modal-romaji">{base}</div>
+                  {hint && <div className="ph-modal-romaji-hint">{hint}</div>}
+                </>
+              );
+            })()}
             <div className="ph-modal-tip">Show this screen to staff</div>
           </div>
         </div>
