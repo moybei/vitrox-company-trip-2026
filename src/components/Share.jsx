@@ -41,10 +41,14 @@ export default function Share() {
         </div>
 
         <div className="sh-tip">
-          <strong>iOS:</strong> Safari → Share → Add to Home Screen
+          <div><strong>iOS:</strong> Safari → Share → Add to Home Screen</div>
+          <div><strong>Android:</strong> Chrome → ⋮ → Install app</div>
         </div>
-        <div className="sh-tip">
-          <strong>Android:</strong> Chrome → ⋮ → Install app
+
+        <div className="sh-feedback">
+          Got a feature idea or spotted a bug?<br />
+          Ping me on Google Chat — <strong>Moy Haobei</strong>.<br />
+          I’ll try to fix or add it as soon as possible!
         </div>
       </div>
     </div>

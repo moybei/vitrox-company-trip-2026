@@ -146,7 +146,7 @@ export default function App() {
               🗣 Phrases
             </button>
             <button className={`nav-tab${tab === 'share' ? ' nav-tab--active' : ''}`} onClick={() => goTo('share')}>
-              📱 Share
+              📱 Share It!
             </button>
           </nav>
 
@@ -182,7 +182,7 @@ export default function App() {
             </button>
             <button className="hdr-mobile-link" onClick={() => goTo('share')}>
               <span className="hdr-mobile-icon">📱</span>
-              <span>Share</span>
+              <span>Share It!</span>
             </button>
           </div>
         </div>
