@@ -1,5 +1,10 @@
 ﻿import { FLIGHTS } from '../data/flights';
 
+function flightStatusUrl(flightNo) {
+  // Opens Google search which shows the live flight-status card at the top
+  return `https://www.google.com/search?q=${encodeURIComponent(flightNo + ' flight status')}`;
+}
+
 export default function FlightInfo({ airlineKey }) {
   if (!airlineKey) return null;
   const fl = FLIGHTS[airlineKey];
@@ -12,7 +17,18 @@ export default function FlightInfo({ airlineKey }) {
       </tr>
     ) : (
       <tr>
-        <td className="fn">{r.flight}</td>
+        <td className="fn">
+          <a
+            className="ft-link"
+            href={flightStatusUrl(r.flight)}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`Check ${r.flight} live status`}
+          >
+            {r.flight}
+            <span className="ft-link-ico" aria-hidden="true">↗</span>
+          </a>
+        </td>
         <td>{r.route}</td>
         <td>{r.dep}</td>
         <td>{r.arr}</td>
@@ -64,6 +80,8 @@ export default function FlightInfo({ airlineKey }) {
           </table>
         </div>
       </div>
+
+      <div className="fi-foot">Tap flight number to check live status</div>
     </div>
   );
 }
