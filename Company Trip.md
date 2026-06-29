@@ -108,8 +108,8 @@ Trip 31 – 17 Nov 2026 – 24 Nov 2026
 Trip 32 – 21 Nov 2026 – 28 Nov 2026
 
 ### Flight Detail (Trip)
-Cathay Pacific: 1 2 3 4 8 9 10 18 22 30 32
-Singapore Airlines: 5 6 7 11 12 13 14 15 16 17 19 20 21 23 24 25 26 27 28 29 31
+Cathay Pacific: 1 2 3 4 8 9 18 22 30 32
+Singapore Airlines: 5 6 7 10 11 12 13 14 15 16 17 19 20 21 23 24 25 26 27 28 29 31
 
 ---
 

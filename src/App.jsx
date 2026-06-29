@@ -12,6 +12,7 @@ import DayCard           from './components/DayCard';
 import CurrencyConverter from './components/CurrencyConverter';
 import Checklist        from './components/Checklist';
 import Splitter         from './components/Splitter';
+import Share            from './components/Share';
 
 const STORAGE_KEY = 'vitrox-trip-id';
 
@@ -140,6 +141,9 @@ export default function App() {
             <button className={`nav-tab${tab === 'splitter' ? ' nav-tab--active' : ''}`} onClick={() => goTo('splitter')}>
               💰 Split
             </button>
+            <button className={`nav-tab${tab === 'share' ? ' nav-tab--active' : ''}`} onClick={() => goTo('share')}>
+              📱 Share
+            </button>
           </nav>
 
           {/* Mobile hamburger */}
@@ -167,6 +171,10 @@ export default function App() {
             <button className="hdr-mobile-link" onClick={() => goTo('splitter')}>
               <span className="hdr-mobile-icon">💰</span>
               <span>Split</span>
+            </button>
+            <button className="hdr-mobile-link" onClick={() => goTo('share')}>
+              <span className="hdr-mobile-icon">📱</span>
+              <span>Share</span>
             </button>
           </div>
         </div>
@@ -283,7 +291,8 @@ export default function App() {
 
       {/* ── SPLITTER PAGE ───────────────────────────────── */}
       {tab === 'splitter' && <div className="tab-page"><Splitter /></div>}
-
+      {/* ── SHARE PAGE ─────────────────────────────────────── */}
+      {tab === 'share' && <div className="tab-page"><Share /></div>}
       <footer className="ftr">
         2026 ViTrox Company Incentive Trip · Japan Tohoku 8D7N
       </footer>
