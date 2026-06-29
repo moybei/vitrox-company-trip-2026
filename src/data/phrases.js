@@ -132,6 +132,7 @@ const PHRASE_GROUPS = [
       { en: 'Where is the hospital?',      jp: '病院はどこですか？',                romaji: 'Byouin wa doko desu ka? (byoh-een wah do-koh des-ka)' },
       { en: 'Where is the pharmacy?',      jp: '薬局はどこですか？',                romaji: 'Yakkyoku wa doko desu ka? (yak-kyo-koo wah do-koh des-ka)' },
       { en: 'I feel sick',                 jp: '気分が悪いです',                    romaji: 'Kibun ga warui desu (kee-boon gah wa-roo-ee des)' },
+      { en: 'Call an ambulance!',          jp: '救急車を呼んでください',            romaji: 'Kyuukyuusha o yonde kudasai (kyoo-kyoo-sha oh yon-deh koo-da-sai)' },
       { en: 'Call the police',             jp: '警察を呼んでください',              romaji: 'Keisatsu o yonde kudasai (kay-sa-tsoo oh yon-deh koo-da-sai)' },
       { en: 'I lost my passport',          jp: 'パスポートをなくしました',          romaji: 'Pasupooto o nakushimashita (pas-poh-toh oh na-koo-shee-mash-ta)' },
       { en: 'I lost my wallet',            jp: '財布をなくしました',                romaji: 'Saifu o nakushimashita (sai-foo oh na-koo-shee-mash-ta)' },

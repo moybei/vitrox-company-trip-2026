@@ -2334,3 +2334,226 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+
+/* ================================================================
+   SOS / EMERGENCY PAGE
+================================================================ */
+.sos-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 14px 60px;
+  min-height: calc(100vh - 72px);
+  background: #f8fafc;
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+.sos-section-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  margin: 14px 4px 2px;
+}
+.sos-section-lbl:first-child { margin-top: 4px; }
+
+/* Emergency call buttons (110 / 119) */
+.sos-row--emergency {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sos-call {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 18px 12px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-family: inherit;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.18);
+  transition: transform 0.12s, box-shadow 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sos-call:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.22);
+}
+.sos-call--police     { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+.sos-call--ambulance  { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+                        box-shadow: 0 4px 14px rgba(234, 88, 12, 0.18); }
+.sos-call--ambulance:active { box-shadow: 0 2px 6px rgba(234, 88, 12, 0.22); }
+.sos-call-num {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.sos-call-lbl {
+  font-size: 11.5px;
+  font-weight: 600;
+  opacity: 0.95;
+  text-align: center;
+}
+.sos-tip {
+  margin: 2px 4px 4px;
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.5;
+  text-align: center;
+}
+.sos-tip strong { color: #0f172a; font-weight: 700; }
+
+/* Cards */
+.sos-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  border-top: 3px solid #cbd5e1;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+/* Colored top border per card variant — matches Checklist .cl-card pattern */
+.sos-card--embassy  { border-top-color: #dc2626; }  /* Malaysia red */
+.sos-card--helpline { border-top-color: #0d9488; }  /* teal */
+.sos-card--phrases  { border-top-color: #dc2626; }  /* violet */
+
+/* Action rows (call, address, email, helpline, phrases) */
+.sos-action {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+  text-decoration: none;
+  color: #0f172a;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s;
+}
+.sos-action:last-child { border-bottom: none; }
+.sos-action:active { background: #f8fafc; }
+@media (hover: hover) { .sos-action:hover { background: #f8fafc; } }
+
+.sos-action-ico {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: #f0f9ff;
+  color: #0ea5e9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.04);
+}
+/* iOS-style colored icon tiles per action type */
+.sos-action-ico--phone {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+.sos-action-ico--map {
+  background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.25);
+}
+.sos-action-ico--mail {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(249, 115, 22, 0.25);
+}
+.sos-action-ico--help {
+  background: linear-gradient(135deg, #2dd4bf 0%, #0d9488 100%);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.25);
+}
+.sos-action-ico--sos {
+  /* Matches Phrases tab emergency group: light-red tile with 🆘 emoji */
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 20px;
+  line-height: 1;
+}
+.sos-action--primary .sos-action-ico {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.sos-action-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sos-action-lbl {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sos-action-val {
+  font-size: 14px;
+  color: #0f172a;
+  font-weight: 600;
+  line-height: 1.35;
+  word-break: break-word;
+}
+.sos-action--primary .sos-action-val {
+  color: #dc2626;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.sos-action-arrow {
+  flex-shrink: 0;
+  font-size: 22px;
+  color: #cbd5e1;
+  line-height: 1;
+  padding-right: 4px;
+}
+
+.sos-mini-tip {
+  margin: 0;
+  padding: 10px 14px 12px;
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.5;
+  border-top: 1px solid #f1f5f9;
+}
+
+.sos-phrases-btn {
+  /* Card-shaped button laid out like a single .sos-action row */
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 14px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s, transform 0.12s;
+}
+.sos-phrases-btn:active {
+  background: #f8fafc;
+  transform: scale(0.99);
+}
+@media (hover: hover) {
+  .sos-phrases-btn:hover { background: #f8fafc; }
+}

@@ -13,6 +13,7 @@ import CurrencyConverter from './components/CurrencyConverter';
 import Checklist        from './components/Checklist';
 import Splitter         from './components/Splitter';
 import Phrases          from './components/Phrases';
+import SOS              from './components/SOS';
 import Share            from './components/Share';
 
 const STORAGE_KEY = 'vitrox-trip-id';
@@ -145,6 +146,9 @@ export default function App() {
             <button className={`nav-tab${tab === 'phrases' ? ' nav-tab--active' : ''}`} onClick={() => goTo('phrases')}>
               🗣 Phrases
             </button>
+            <button className={`nav-tab${tab === 'sos' ? ' nav-tab--active' : ''}`} onClick={() => goTo('sos')}>
+              🆘 SOS
+            </button>
             <button className={`nav-tab${tab === 'share' ? ' nav-tab--active' : ''}`} onClick={() => goTo('share')}>
               📱 Share It!
             </button>
@@ -179,6 +183,10 @@ export default function App() {
             <button className="hdr-mobile-link" onClick={() => goTo('phrases')}>
               <span className="hdr-mobile-icon">🗣</span>
               <span>Phrases</span>
+            </button>
+            <button className="hdr-mobile-link" onClick={() => goTo('sos')}>
+              <span className="hdr-mobile-icon">🆘</span>
+              <span>SOS</span>
             </button>
             <button className="hdr-mobile-link" onClick={() => goTo('share')}>
               <span className="hdr-mobile-icon">📱</span>
@@ -300,8 +308,8 @@ export default function App() {
       {/* ── SPLITTER PAGE ───────────────────────────────── */}
       {tab === 'splitter' && <div className="tab-page"><Splitter /></div>}
       {/* ── PHRASES PAGE ───────────────────────────────── */}
-      {tab === 'phrases' && <div className="tab-page"><Phrases /></div>}
-      {/* ── SHARE PAGE ─────────────────────────────────────── */}
+      {tab === 'phrases' && <div className="tab-page"><Phrases /></div>}      {/* ── SOS PAGE ──────────────────────────────────────── */}
+      {tab === 'sos' && <div className="tab-page"><SOS goTo={goTo} /></div>}      {/* ── SHARE PAGE ─────────────────────────────────────── */}
       {tab === 'share' && <div className="tab-page"><Share /></div>}
       <footer className="ftr">
         2026 ViTrox Company Incentive Trip · Japan Tohoku 8D7N
