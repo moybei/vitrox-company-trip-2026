@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useExchangeRate } from '../hooks/useExchangeRate';
 
 const CURRENCIES = {
   MYR: { code: 'my', name: 'Malaysian Ringgit' },
   JPY: { code: 'jp', name: 'Japanese Yen'      },
 };
+
+const AMOUNT_KEY  = 'vitrox-cc-amount';
+const TO_JPY_KEY  = 'vitrox-cc-tojpy';
 
 function fmtResult(n, ccy) {
   if (ccy === 'JPY') return Math.round(n).toLocaleString('en-MY');
@@ -13,9 +16,29 @@ function fmtResult(n, ccy) {
 
 export default function CurrencyConverter() {
   const { rate, updatedAt, fetching } = useExchangeRate();
-  const [amount,   setAmount]   = useState('100');
-  const [toJpy,    setToJpy]    = useState(true);
+
+  // Default direction is JPY → MYR (more useful while travelling in Japan)
+  // Default amount is "100" so the field is never empty on first load.
+  const [amount, setAmount] = useState(() => {
+    try { return localStorage.getItem(AMOUNT_KEY) ?? '100'; }
+    catch { return '100'; }
+  });
+  const [toJpy, setToJpy] = useState(() => {
+    try {
+      const v = localStorage.getItem(TO_JPY_KEY);
+      if (v === null) return false; // first run → JPY → MYR
+      return v === '1';
+    } catch { return false; }
+  });
   const [swapping, setSwapping] = useState(false);
+
+  // Persist on change
+  useEffect(() => {
+    try { localStorage.setItem(AMOUNT_KEY, amount); } catch { /* ignore */ }
+  }, [amount]);
+  useEffect(() => {
+    try { localStorage.setItem(TO_JPY_KEY, toJpy ? '1' : '0'); } catch { /* ignore */ }
+  }, [toJpy]);
 
   const fromCcy = toJpy ? 'MYR' : 'JPY';
   const toCcy   = toJpy ? 'JPY' : 'MYR';
