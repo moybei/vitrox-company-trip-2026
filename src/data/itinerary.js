@@ -15,7 +15,7 @@ export const MODE_STYLE = {
 export const MODE_LABEL = {
   flight:     { icon: '✈️', label: 'Flight',      bg: '#fff0f0', text: '#c0392b' },
   shinkansen: { icon: '🚅', label: 'Shinkansen',  bg: '#eef3ff', text: '#2554d1' },
-  bus:        { icon: '🚌', label: 'Bus',          bg: '#fff8eb', text: '#d97706' },
+  bus:        { icon: '🚌', label: 'Tour Bus',     bg: '#fff8eb', text: '#d97706' },
 };
 
 // Fallback coordinate-based link for stops without a specific short link
@@ -23,13 +23,18 @@ const gm = (lat, lng) => `https://www.google.com/maps?q=${lat},${lng}`;
 
 export const ITINERARY = [
   // ── DAY 1 ────────────────────────────────────────────────────
+  //
+  // NOTE: Day 1's arrival airport differs per airline (Cathay → NRT, SQ → HND).
+  // The base shape below is overwritten by `getItineraryForAirline()`.
+  // Treat this as the default fallback.
   {
     day: 1,
     type: 'travel',
     icon: '✈️',
     title: 'Departure – Penang to Japan',
     segments: [
-      { from: 'Penang (PEN)', to: 'Narita / Haneda (NRT/HND)', mode: MODE.FLIGHT, duration: 'See flight details' },
+      { from: 'Penang (PEN)', to: 'Narita (NRT)', mode: MODE.FLIGHT, duration: 'See flight details' },
+      { from: 'Narita (NRT)', to: 'Narita Tobu Hotel Airport', mode: MODE.BUS, duration: '~10 min' },
     ],
     attractions: [],
     hotel: {
@@ -42,7 +47,9 @@ export const ITINERARY = [
     mapPoints: [
       { lat: 35.7731, lng: 140.3897, label: 'Narita (NRT)', type: 'airport', googleUrl: 'https://maps.app.goo.gl/gS1fi8WJWuCPEDoq5' },
     ],
-    polylines: [],
+    polylines: [
+      { points: [[35.7731, 140.3897], [35.7800, 140.3809]], mode: MODE.BUS },
+    ],
   },
 
   // ── DAY 2 ────────────────────────────────────────────────────
@@ -53,7 +60,7 @@ export const ITINERARY = [
     title: 'Narita → Sendai, Miyagi',
     segments: [
       { from: 'Narita',     to: 'Sendai',       mode: MODE.SHINKANSEN, duration: '~1h 30m' },
-      { from: 'Sendai',     to: 'Matsushima',   mode: MODE.BUS,         duration: '~50 min' },
+      { from: 'Sendai',     to: 'Matsushima',   mode: MODE.BUS,         duration: '~40 min' },
       { from: 'Matsushima', to: 'Naruko Onsen', mode: MODE.BUS,         duration: '~1h 30m' },
     ],
     attractions: [
@@ -92,7 +99,7 @@ export const ITINERARY = [
     icon: '♨️',
     title: 'Miyagi → Ginzan Onsen → Zao',
     segments: [
-      { from: 'Naruko Onsen / Miyagi', to: 'Ginzan Onsen', mode: MODE.BUS, duration: '~2h 20m' },
+      { from: 'Naruko Onsen / Miyagi', to: 'Ginzan Onsen', mode: MODE.BUS, duration: '~2h' },
       { from: 'Ginzan Onsen',          to: 'Zao',          mode: MODE.BUS, duration: '~1h 30m' },
     ],
     attractions: [
@@ -125,7 +132,7 @@ export const ITINERARY = [
     icon: '🏯',
     title: 'Zao → Goshikinuma Ponds → Fukushima',
     segments: [
-      { from: 'Zao',          to: 'Goshikinuma Ponds',     mode: MODE.BUS, duration: '~2h 30m' },
+      { from: 'Zao',          to: 'Goshikinuma Ponds',     mode: MODE.BUS, duration: '~2h' },
       { from: 'Goshikinuma', to: 'Tsuruga Castle (Aizu)',  mode: MODE.BUS, duration: '~30 min' },
       { from: 'Aizu',        to: 'Ouchi-juku',              mode: MODE.BUS, duration: '~50 min' },
       { from: 'Ouchi-juku',  to: 'Higashiyama Onsen',      mode: MODE.BUS, duration: '~40 min' },
@@ -200,9 +207,9 @@ export const ITINERARY = [
     icon: '🌸',
     title: 'Nikkō → Ibaraki → Shibuya, Kantō',
     segments: [
-      { from: 'Oku-Nikkō',           to: 'Hitachi Seaside Park',   mode: MODE.BUS, duration: '~2h 30m' },
-      { from: 'Hitachi Seaside Park', to: 'Shisui Premium Outlets', mode: MODE.BUS, duration: '~1h 30m' },
-      { from: 'Shisui',              to: 'Shibuya',                 mode: MODE.BUS, duration: '~1h' },
+      { from: 'Oku-Nikkō',           to: 'Hitachi Seaside Park',   mode: MODE.BUS, duration: '~3h' },
+      { from: 'Hitachi Seaside Park', to: 'Shisui Premium Outlets', mode: MODE.BUS, duration: '~1h 45m' },
+      { from: 'Shisui',              to: 'Shibuya',                 mode: MODE.BUS, duration: '~1h 30m' },
     ],
     attractions: [
       { name: 'Hitachi Seaside Park',   googleUrl: 'https://maps.app.goo.gl/wX3LPhh6uEXxf5E88' },
@@ -271,8 +278,8 @@ export const ITINERARY = [
     icon: '✈️',
     title: 'Return – Japan to Penang',
     segments: [
-      { from: 'Shibuya',                   to: 'Narita / Haneda',   mode: MODE.BUS,    duration: '~1h 20m' },
-      { from: 'Narita / Haneda (NRT/HND)', to: 'Penang (PEN)',      mode: MODE.FLIGHT, duration: 'See flight details' },
+      { from: 'Shibuya',      to: 'Narita (NRT)', mode: MODE.BUS,    duration: '~1h 20m' },
+      { from: 'Narita (NRT)', to: 'Penang (PEN)', mode: MODE.FLIGHT, duration: 'See flight details' },
     ],
     attractions: [],
     hotel: null,
@@ -285,3 +292,61 @@ export const ITINERARY = [
     ],
   },
 ];
+
+// ────────────────────────────────────────────────────────────────
+// Airline-aware Day 1 overrides
+//
+// Cathay flights arrive at NRT (Narita) — short shuttle to the hotel
+// SQ flights arrive at HND (Haneda) — long limousine bus ride to Narita-area hotel
+// Day 8 is identical for both (everyone departs from NRT)
+// ────────────────────────────────────────────────────────────────
+
+// Coordinates reused below
+const HOTEL_LL = [35.7800, 140.3809]; // Narita Tobu Hotel Airport
+const NRT_LL   = [35.7731, 140.3897]; // Narita International
+const HND_LL   = [35.5494, 139.7798]; // Haneda
+
+const DAY1_BY_AIRLINE = {
+  cathay: {
+    airportLabel: 'Narita (NRT)',
+    airportCoords: NRT_LL,
+    airportUrl: 'https://maps.app.goo.gl/gS1fi8WJWuCPEDoq5',
+    // NRT terminal to Narita Tobu Hotel Airport — free hotel shuttle, ~10 min
+    busDuration: '~10 min',
+  },
+  sq: {
+    airportLabel: 'Haneda (HND)',
+    airportCoords: HND_LL,
+    airportUrl: gm(HND_LL[0], HND_LL[1]),
+    // HND → Narita-area hotel via Wangan + Higashi-Kanto Expressway, ~75 km
+    // SQ 634 arrives 21:55 → late-night light traffic → ~1h by chartered coach
+    busDuration: '~1h',
+  },
+};
+
+export function getItineraryForAirline(airlineKey) {
+  const cfg = DAY1_BY_AIRLINE[airlineKey] || DAY1_BY_AIRLINE.cathay;
+
+  return ITINERARY.map((day) => {
+    if (day.day !== 1) return day;
+    return {
+      ...day,
+      segments: [
+        { from: 'Penang (PEN)', to: cfg.airportLabel,           mode: MODE.FLIGHT, duration: 'See flight details' },
+        { from: cfg.airportLabel, to: 'Narita Tobu Hotel Airport', mode: MODE.BUS, duration: cfg.busDuration },
+      ],
+      mapPoints: [
+        {
+          lat: cfg.airportCoords[0],
+          lng: cfg.airportCoords[1],
+          label: cfg.airportLabel,
+          type: 'airport',
+          googleUrl: cfg.airportUrl,
+        },
+      ],
+      polylines: [
+        { points: [cfg.airportCoords, HOTEL_LL], mode: MODE.BUS },
+      ],
+    };
+  });
+}

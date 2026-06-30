@@ -1,9 +1,9 @@
-﻿import { useState, useRef, useCallback, useEffect } from 'react';
+﻿import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import './App.css';
 import { TRIPS, parseDate, fmtDate, addDays, getAirline } from './data/trips';
 import { FLIGHTS } from './data/flights';
-import { ITINERARY } from './data/itinerary';
+import { getItineraryForAirline } from './data/itinerary';
 import { useWeather } from './hooks/useWeather';
 const TAB_KEY = 'vitrox-tab';
 import FlightInfo        from './components/FlightInfo';
@@ -90,7 +90,10 @@ export default function App() {
   const start      = trip ? parseDate(trip.start) : null;
   const end        = start ? addDays(start, 7) : null;
 
-  const { weather, loading: weatherLoading } = useWeather(start, ITINERARY);
+  // Day 1 depends on which airline this trip flies (Cathay → NRT, SQ → HND)
+  const itinerary = useMemo(() => getItineraryForAirline(airlineKey), [airlineKey]);
+
+  const { weather, loading: weatherLoading } = useWeather(start, itinerary);
 
   // Forecast data is only available 16 days ahead; beyond that we use last year's archive
   const forecastCutoff = new Date();
@@ -272,13 +275,13 @@ export default function App() {
           {/* ── MAIN ── */}
           <div className="layout">
             <div ref={mapRef} className="col-map">
-              <TripMap selectedDay={selectedDay} onSelectDay={handleSelectDay} />
+              <TripMap itinerary={itinerary} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
             </div>
             <div className="col-cards">
               <div className="cards-hdr">
                 <span className="cards-hdr-title">Day-by-Day Itinerary</span>
               </div>
-              {start && ITINERARY.map((day) => (
+              {start && itinerary.map((day) => (
                 <DayCard
                   key={day.day}
                   day={day}

@@ -1,7 +1,7 @@
 ﻿import { useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { ITINERARY, MODE_STYLE } from '../data/itinerary';
+import { MODE_STYLE } from '../data/itinerary';
 
 const gmap = (lat, lng) => `https://www.google.com/maps?q=${lat},${lng}`;
 
@@ -25,7 +25,7 @@ const mkAirport = () => L.divIcon({
 const popupHtml = (inner) =>
   `<div class="mp">${inner}</div>`;
 
-export default function TripMap({ selectedDay, onSelectDay }) {
+export default function TripMap({ itinerary, selectedDay, onSelectDay }) {
   const containerRef = useRef(null);
   const mapRef       = useRef(null);
   const layersRef    = useRef([]);
@@ -64,7 +64,7 @@ export default function TripMap({ selectedDay, onSelectDay }) {
       const seenHotels   = new Set();
       const seenAirports = new Set();
 
-      ITINERARY.forEach((day) => {
+      itinerary.forEach((day) => {
         // Route lines (all legs, slightly dimmed)
         day.polylines.forEach((pl) => {
           const s = MODE_STYLE[pl.mode];
@@ -112,7 +112,7 @@ export default function TripMap({ selectedDay, onSelectDay }) {
       }
     } else {
       // ── DAY DETAIL: route + attractions + prev/current night markers ──
-      const day = ITINERARY.find((d) => d.day === selectedDay);
+      const day = itinerary.find((d) => d.day === selectedDay);
       if (!day) return;
 
       const bounds = [];
@@ -139,7 +139,7 @@ export default function TripMap({ selectedDay, onSelectDay }) {
       });
 
       // Previous night hotel → shows numbered departure marker
-      const prevDay = ITINERARY.find((d) => d.day === day.day - 1);
+      const prevDay = itinerary.find((d) => d.day === day.day - 1);
       if (prevDay?.hotel) {
         const sameLoc =
           day.hotel &&
@@ -192,7 +192,7 @@ export default function TripMap({ selectedDay, onSelectDay }) {
         map.fitBounds(L.latLngBounds(bounds).pad(0.35), { animate: true, duration: 0.5 });
       }
     }
-  }, [selectedDay, onSelectDay]);
+  }, [itinerary, selectedDay, onSelectDay]);
 
   return (
     <div className="map-panel">
